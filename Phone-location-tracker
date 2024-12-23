@@ -41,7 +41,7 @@ body {
 
 // app.js
 // Connect to the backend using Socket.IO (this will connect to your Glitch backend)
-let socket = io('https://your-glitch-backend-url.glitch.me'); // Replace with your Glitch URL
+let socket = io('https://axiomatic-invited-psychiatrist.glitch.me'); // Replace with your Glitch URL
 let map;
 
 // Initialize the Google Map
