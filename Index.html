@@ -3,19 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phone Location Tracker</title>
+    <title>Phone Number Tracker</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Phone Location Tracker</h1>
-    <button onclick="getLocation()">Track My Location</button>
-    <div id="location"></div>
-    <div id="map"></div>
+    <div class="container">
+        <h1>Phone Number Tracker</h1>
+        <input type="text" id="phone-number" placeholder="Enter Phone Number" />
+        <button onclick="getLocation()">Track Location</button>
 
-    <!-- Socket.IO Client -->
-    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
-    <!-- Google Maps API (Replace with your own API key) -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap" async defer></script>
-    <script src="app.js"></script>
+        <div id="result">
+            <h3>Location Details</h3>
+            <p id="location"></p>
+        </div>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f4f4f4;
+}
+
+.container {
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    width: 300px;
+    background-color: #fff;
+}
+
+input {
+    padding: 10px;
+    width: 80%;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+button {
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#result {
+    margin-top: 20px;
+}
+
+function getLocation() {
+    const phoneNumber = document.getElementById("phone-number").value;
+    const resultDiv = document.getElementById("result");
+    const locationDiv = document.getElementById("location");
+
+    if (!phoneNumber) {
+        locationDiv.innerText = "Please enter a phone number!";
+        return;
+    }
+
+    // Send a request to the Glitch backend API
+    fetch(`https://your-glitch-app-url.glitch.me/api/lookup?phone=${phoneNumber}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.location) {
+                locationDiv.innerText = `Location: ${data.location}`;
+            } else {
+                locationDiv.innerText = "Location not found!";
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            locationDiv.innerText = "Error fetching location.";
+        });
+}
